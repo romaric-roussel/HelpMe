@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">HelpMe</string>
+    <string-array name="spinner_array">
+        <item>Aide urgente</item>
+        <item>Conseil</item>
+        <item>Pause !</item>
+        <item>Travail termine</item>
+        <item>Travail rendu</item>
+    </string-array>
+</resources>
+
+
