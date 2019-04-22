@@ -18,11 +18,12 @@ object MessageRepository {
 
         call.enqueue(object : Callback<MessageResult>{
             override fun onFailure(call: Call<MessageResult>, t: Throwable) {
-                //TODO
+                //Erreur sur l'envoi du message
                 messageData.postValue(null)
             }
 
             override fun onResponse(call: Call<MessageResult>, response: Response<MessageResult>) {
+                //message envoyer, recupération de la valeur de retour
                 messageData.postValue(response.body())
             }
 

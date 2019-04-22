@@ -23,6 +23,7 @@ class MainActivity : BaseActivity(), LifecycleOwner {
         setContentView(R.layout.activity_main)
 
 
+        //création d'un adapter pour la liste déroulante
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_dropdown_item, resources.getStringArray(R.array.spinner_array)
@@ -30,14 +31,21 @@ class MainActivity : BaseActivity(), LifecycleOwner {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sp_message.adapter = adapter
+
+        //Ajout d'un listener sur le bouton send
         bt_send.setOnClickListener { v ->
+            //Concaténation des 2 champs de saisit
             var author = et_user1.text.toString().trim()+"/"+et_user2.text.toString().trim()
+            //Création d'un regex pour la validation des champs
             val pattern = Pattern.compile("^[a-zA-Z, /-]*$")
+            //Si les champs sont OK
             val matcher = pattern.matcher(author)
+
 
             if(author.length>16){
                 Toast.makeText(this,"Les noms dépasse la limite de 16 charactere",Toast.LENGTH_LONG).show()
             }else if (matcher.matches()){
+                //Envoie du message et attribution de l'observer
                 messageViewModel.newMessage(author,sp_message.selectedItem.toString())
                     .observe(this,messageResultDataObserver)
             }else {
@@ -46,7 +54,9 @@ class MainActivity : BaseActivity(), LifecycleOwner {
 
         }
 
+        //Creation du viewModel
         messageViewModel = ViewModelProviders.of(this).get(MessageViewModel::class.java)
+        //Initialisation de l'observer et action effectuer en fonction des valeurs de retour
         messageResultDataObserver= Observer {
             if(it.status.equals("ok")){
                 Toast.makeText(this,"Demande envoyé",Toast.LENGTH_SHORT).show()
